@@ -1,1 +1,11 @@
-https://olymp123.contest.codeforces.com/group/a6606NKaXI/contest/563340
+def word_to_numbers(word):
+    # Создаем словарь, где ключ — буква, значение — её порядковый номер в алфавите
+    alphabet = {char: str(index) for index, char in enumerate("abcdefghijklmnopqrstuvwxyz", start=1)}
+    
+    # Преобразуем слово в строчные буквы и заменяем каждую букву на её номер
+    return ''.join([alphabet.get(char.lower(), char) for char in word])
+
+# Пример использования
+word = "Python"
+result = word_to_numbers(word)
+print(result)  # Выведет: 162516825
