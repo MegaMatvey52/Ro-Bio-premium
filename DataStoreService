@@ -1,0 +1,33 @@
+--загрузка---------------------------------
+local DataStoreService = game:GetService("DataStoreService")
+local playerDataStore = DataStoreService:GetDataStore("PlayerData")
+
+-- Пример данных, которые нужно сохранить
+local playerData = {
+    coins = 100,
+    level = 5,
+    inventory = {"Sword", "Shield"}
+}
+
+-- Функция для сохранения данных
+function savePlayerData(player, data)
+    local success, err = pcall(function()
+        playerDataStore:SetAsync(player.UserId, data)
+    end)
+    if not success then
+        warn("Ошибка при сохранении данных: " .. tostring(err))
+    end
+end
+
+-- Вызываем функцию для сохранения данных
+savePlayerData(game.Players.LocalPlayer, playerData)
+--это локальный скрипт-----
+
+--сохранение---------------------------------------
+
+--недоделано-----
+
+local loadedData = playerDataStore:GetAsync(player.UserId)
+print(loadedData.coins) -- Выведет 100
+print(loadedData.level) -- Выведет 5
+print(loadedData.inventory[1]) -- Выведет "Sword"
