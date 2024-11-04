@@ -1,7 +1,7 @@
 def find_position(word):
-    # Преобразование буквы в соответствующее число (a -> 0, b -> 1, ...)
+    # Преобразование буквы в соответствующее число (A -> 1, B -> 2, ...)
     def char_to_num(char):
-        return ord(char) - ord('a')
+        return ord(char) - ord('A') + 1
     
     n = len(word)
     
@@ -9,12 +9,12 @@ def find_position(word):
     total_shorter_words = (26**n - 26) // 25
     
     # Позиция слова среди слов той же длины
-    position_in_same_length = sum((char_to_num(char) + 1) * 26**(n - i - 1) for i, char in enumerate(word))
+    position_in_same_length = sum(char_to_num(char) * 26**(n - i - 1) for i, char in enumerate(word))
     
     # Общая позиция слова
-    return total_shorter_words + position_in_same_length
+    return total_shorter_words + position_in_same_length + 1
 
 # Пример использования
-word = input("Введите ваше любимое слово: ")
+word = input("Введите ваше любимое слово: ").upper()
 position = find_position(word)
 print(f"Ваше слово находится под номером {position}.")
