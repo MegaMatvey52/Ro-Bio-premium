@@ -1,0 +1,48 @@
+Создание ноклипа (NoClip) в Roblox Studio позволяет игроку проходить сквозь стены и другие препятствия. Это может быть полезно для тестирования уровней или просто для весёлого времяпрепровождения. Вот пошаговая инструкция, как это сделать:
+
+1. **Создайте скрипт для NoClip**:
+   Откройте Roblox Studio и создайте новый скрипт в разделе `ServerScriptService`.
+
+2. **Напишите код**:
+
+   ```lua
+   local Players = game:GetService("Players")
+
+   -- Функция для включения/выключения NoClip
+   function toggleNoClip(player)
+       local character = player.Character or player.CharacterAdded:Wait()
+       local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+
+       if humanoid then
+           humanoid:ChangeState(Enum.HumanoidStateType.Climbing)
+           wait(0.1)
+           humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+           task.wait(0.1)
+
+           while true do
+               for _, part in pairs(character:GetDescendants()) do
+                   if part:IsA("BasePart") then
+                       part.CanCollide = false
+                   end
+               end
+               task.wait()
+           end
+       end
+   end
+
+   -- Событие для активации NoClip
+   Players.PlayerAdded:Connect(function(player)
+       player.CharacterAdded:Connect(toggleNoClip)
+   end)
+   ```
+
+3. **Объяснение кода**:
+
+   - Мы используем `Humanoid:ChangeState()` для изменения состояния персонажа на "Climbing" и затем на "Jumping". Это необходимо для корректного поведения ноклипа.
+   - Цикл `while true do ... end` проходит по всем частям персонажа и устанавливает свойство `CanCollide` в `false`, что позволяет персонажу проходить сквозь препятствия.
+
+4. **Тестирование**:
+
+   Запустите игру и проверьте, работает ли ноклип. Ваш персонаж должен свободно перемещаться сквозь стены и объекты.
+
+Вот и всё! Теперь ваш персонаж сможет летать и проходить сквозь любые преграды. Однако помните, что использование ноклипа в публичных играх может нарушить баланс и испортить удовольствие другим игрокам. Поэтому применяйте его только для тестирования или в личных проектах.
